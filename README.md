@@ -46,6 +46,14 @@ contracts, and the result can be read via `getTermination` and
 [`sample-proposal.json`](sample-proposal.json) contains a partial Vega
 market proposal for contracts deployed on the Goerli network.
 
+Small, selective ABIs can be generated with `forge inspect` and `jq`.
+Here the `getTermination` from `TerminationOracle` is filtered out and
+encoded as a JSON string in the format expected by Vega:
+
+```shell
+forge inspect TerminationOracle abi | jq '[.[] | select(.name == "getTermination")] | tostring' --monochrome-output --compact-output
+```
+
 ### Build
 
 ```shell
@@ -69,7 +77,7 @@ $ forge fmt
 Modify the included `.env` file, filling in missing variables. Here's an 
 example for Goerli Testnet:
 
-```
+```make
 export CHAIN=goerli
 export CHAIN_ID=5
 export ETH_RPC_URL=https://goerli.infura.io/v3/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
