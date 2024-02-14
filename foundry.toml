@@ -2,5 +2,20 @@
 src = "src"
 out = "out"
 libs = ["lib"]
+remappings = [
+  "@uma/=lib/protocol/packages/",
+  "@openzeppelin/=lib/openzeppelin-contracts/",
+]
 
-# See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
+via_ir = true
+
+[rpc_endpoints]
+goerli = "${ETH_RPC_URL}"
+mainnet = "${ETH_RPC_URL}"
+
+[etherscan]
+goerli = { url = "https://api-goerli.etherscan.io/api", key = "${ETHERSCAN_API_KEY}", chain = 5 }
+mainnet = { url = "https://api.etherscan.io/api", key = "${ETHERSCAN_API_KEY}", chain = 1 }
+
+[fmt]
+tab_width = 2

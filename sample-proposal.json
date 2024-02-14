@@ -1,0 +1,89 @@
+{
+	"dataSourceSpecBinding": {
+		"settlementDataProperty": "price",
+		"tradingTerminationProperty": "terminated"
+	},
+	"dataSourceSpecForTradingTermination": {
+		"external": {
+			"ethOracle": {
+				"sourceChainId": "5",
+				"address": "0x5046792bd5d7e89a4e4325be64414d4f42496cc8",
+				"abi": "[{\"type\": \"function\",\"name\": \"getTermination\",\"inputs\": [{\"type\": \"tuple\",\"components\": [{\"name\": \"marketId\",\"type\": \"string\"}]}],\"outputs\": [{\"type\": \"bool\"}]}]",
+				"method": "getTermination",
+				"args": [
+					[
+						"MARKET_NAME_REPLACE_ME_HERE"
+					]
+				],
+				"requiredConfirmations": "3",
+				"trigger": {
+					"timeTrigger": {
+						"every": "60"
+					}
+				},
+				"filters": [
+					{
+						"key": {
+							"name": "terminated",
+							"type": "TYPE_BOOLEAN"
+						},
+						"conditions": [
+							{
+								"operator": "OPERATOR_EQUALS",
+								"value": "true"
+							}
+						]
+					}
+				],
+				"normalisers": [
+					{
+						"name": "terminated",
+						"expression": "$[0]"
+					}
+				]
+			}
+		}
+	},
+	"dataSourceSpecForSettlementData": {
+		"external": {
+			"ethOracle": {
+				"sourceChainId": "5",
+				"address": "0x0c67b5ca41f0021730f414907bebfcaa824b9afa",
+				"abi": "[{\"type\": \"function\",\"name\": \"getSettlementPrice\",\"inputs\": [{\"type\": \"tuple\",\"components\": [{\"name\": \"marketId\",\"type\": \"string\"}]}],\"outputs\": [{\"type\": \"uint256\"}]}]",
+				"method": "getTermination",
+				"args": [
+					[
+						"MARKET_NAME_REPLACE_ME_HERE"
+					]
+				],
+				"requiredConfirmations": "3",
+				"trigger": {
+					"timeTrigger": {
+						"every": "60"
+					}
+				},
+				"filters": [
+					{
+						"key": {
+							"name": "price",
+							"type": "TYPE_INTEGER",
+							"numberDecimalPlaces": "18"
+						},
+						"conditions": [
+							{
+								"operator": "OPERATOR_GREATER_THAN",
+								"value": "0"
+							}
+						]
+					}
+				],
+				"normalisers": [
+					{
+						"name": "price",
+						"expression": "$[0]"
+					}
+				]
+			}
+		}
+	}
+}
