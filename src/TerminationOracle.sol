@@ -12,10 +12,6 @@ struct Termination {
   bool resolved;
 }
 
-struct Identifier {
-  string marketId;
-}
-
 contract TerminationOracle is BaseOracle {
   using SafeERC20 for IERC20;
 
@@ -29,13 +25,13 @@ contract TerminationOracle is BaseOracle {
     bondCurrency = IERC20(_bondCurrency);
   }
 
-  function getTermination(Identifier calldata _id) public view returns (bool) {
-    bytes32 identifier = id(_id);
+  function getTermination(string calldata marketId) public view returns (bool) {
+    bytes32 identifier = id(marketId);
     return terminations[identifier].resolved;
   }
 
-  function id(Identifier calldata _id) public pure returns (bytes32) {
-    return keccak256(abi.encode(_id));
+  function id(string calldata marketId) public pure returns (bytes32) {
+    return keccak256(abi.encode(marketId));
   }
 
   function getBondCurrency() public view override returns (IERC20) {
@@ -50,10 +46,10 @@ contract TerminationOracle is BaseOracle {
     return 2 minutes;
   }
 
-  function terminate(Identifier calldata _id, address asserter) external {
+  function terminate(string calldata marketId, address asserter) external {
     asserter = asserter == address(0) ? msg.sender : asserter;
 
-    bytes32 identifier = id(_id);
+    bytes32 identifier = id(marketId);
     if (terminations[identifier].identifier != bytes32(0)) {
       revert("Termination already submitted");
     }
@@ -64,7 +60,7 @@ contract TerminationOracle is BaseOracle {
 
     bytes memory claim = abi.encodePacked(
       "Asserting termination for market: ",
-      _id.marketId
+      marketId
     );
 
     bytes32 ooId = oracle.defaultIdentifier();

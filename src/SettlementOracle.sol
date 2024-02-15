@@ -13,10 +13,6 @@ struct Settlement {
   uint256 price;
 }
 
-struct Identifier {
-  string marketId;
-}
-
 contract SettlementOracle is BaseOracle {
   using SafeERC20 for IERC20;
 
@@ -30,8 +26,8 @@ contract SettlementOracle is BaseOracle {
     bondCurrency = IERC20(_bondCurrency);
   }
 
-  function getSettlementPrice(Identifier calldata _id) public view returns (uint256) {
-    bytes32 identifier = id(_id);
+  function getSettlementPrice(string calldata marketId) public view returns (uint256) {
+    bytes32 identifier = id(marketId);
     Settlement storage settlement = settlements[identifier];
     if (settlement.resolved == false) {
       return 0;
@@ -40,8 +36,8 @@ contract SettlementOracle is BaseOracle {
     return settlement.price;
   }
 
-  function id(Identifier calldata _id) public pure returns (bytes32) {
-    return keccak256(abi.encode(_id));
+  function id(string calldata marketId) public pure returns (bytes32) {
+    return keccak256(abi.encode(marketId));
   }
 
   function getBondCurrency() public view override returns (IERC20) {
@@ -56,10 +52,10 @@ contract SettlementOracle is BaseOracle {
     return 2 minutes;
   }
 
-  function settle(Identifier calldata _id, uint256 settlementPrice, address asserter) external {
+  function settle(string calldata marketId, uint256 settlementPrice, address asserter) external {
     asserter = asserter == address(0) ? msg.sender : asserter;
 
-    bytes32 identifier = id(_id);
+    bytes32 identifier = id(marketId);
     if (settlements[identifier].identifier != bytes32(0)) {
       revert("Settlement already submitted");
     }
@@ -70,7 +66,7 @@ contract SettlementOracle is BaseOracle {
 
     bytes memory claim = abi.encodePacked(
       "Asserting settlement price for market: ",
-      _id.marketId,
+      marketId,
       " with price: ",
       Strings.toString(settlementPrice)
     );
