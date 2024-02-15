@@ -8,7 +8,7 @@
 			"ethOracle": {
 				"sourceChainId": "5",
 				"address": "0xee05CD6Ed5959c688C857033b82184bC1755ae5c",
-				"abi": "[{\"type\": \"function\",\"name\": \"getTermination\",\"inputs\": [{\"type\": \"tuple\",\"components\": [{\"name\": \"marketId\",\"type\": \"string\"}]}],\"outputs\": [{\"type\": \"bool\"}]}]",
+				"abi": "[{\"type\":\"function\",\"name\":\"getTermination\",\"inputs\":[{\"name\":\"marketId\",\"type\":\"string\",\"internalType\":\"string\"}],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"view\"}]",
 				"method": "getTermination",
 				"args": [
 					"MARKET_NAME_REPLACE_ME_HERE"
@@ -47,8 +47,8 @@
 			"ethOracle": {
 				"sourceChainId": "5",
 				"address": "0x19BCDbF79a20B195Da12Fe6Cd35C928793fE2AE7",
-				"abi": "[{\"type\": \"function\",\"name\": \"getSettlementPrice\",\"inputs\": [{\"type\": \"tuple\",\"components\": [{\"name\": \"marketId\",\"type\": \"string\"}]}],\"outputs\": [{\"type\": \"uint256\"}]}]",
-				"method": "getTermination",
+				"abi": "[{\"type\":\"function\",\"name\":\"getSettlementPrice\",\"inputs\":[{\"name\":\"marketId\",\"type\":\"string\",\"internalType\":\"string\"}],\"outputs\":[{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"}]",
+				"method": "getSettlementPrice",
 				"args": [
 					"MARKET_NAME_REPLACE_ME_HERE"
 				],
