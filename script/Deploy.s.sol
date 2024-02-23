@@ -17,8 +17,8 @@ contract DeployScript is Script {
   function setUp() public {}
 
   function run() public {
-  	uint256 privateKey = vm.envUint("PRIVATE_KEY");
-  	address owner = address(vm.addr(privateKey));
+    uint256 privateKey = vm.envUint("PRIVATE_KEY");
+    address owner = address(vm.addr(privateKey));
 
     address wethAddress = vm.envAddress("WETH_ADDRESS");
     require(wethAddress != address(0), "WETH address must be set");
@@ -28,22 +28,22 @@ contract DeployScript is Script {
 
     IWETH weth = IWETH(wethAddress);
 
-		console.log("Address: %s", owner); 
-  	console.log("Eth balance: %d", owner.balance);
+    console.log("Address: %s", owner);
+    console.log("Eth balance: %d", owner.balance);
 
-  	uint256 wethBalance = weth.balanceOf(owner);
+    uint256 wethBalance = weth.balanceOf(owner);
     vm.startBroadcast(privateKey);
 
     if (wethBalance < 0.1 ether) {
-    	weth.deposit{value: 1 ether}();
-		}
+      weth.deposit{value: 1 ether}();
+    }
 
-		SettlementOracle so = new SettlementOracle(oracleAddress, wethAddress);
-		TerminationOracle to = new TerminationOracle(oracleAddress, wethAddress);
+    SettlementOracle so = new SettlementOracle(oracleAddress, wethAddress);
+    TerminationOracle to = new TerminationOracle(oracleAddress, wethAddress);
 
-		weth.approve(address(so), 0.5 ether);
-		weth.approve(address(to), 0.5 ether);
+    weth.approve(address(so), 0.5 ether);
+    weth.approve(address(to), 0.5 ether);
 
-		vm.stopBroadcast();
+    vm.stopBroadcast();
   }
 }

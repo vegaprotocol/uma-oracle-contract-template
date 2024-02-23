@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
+
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
 
@@ -17,7 +18,7 @@ contract TerminationOracle is BaseOracle {
 
   IERC20 public immutable bondCurrency;
 
-  // identifier => Termination 
+  // identifier => Termination
   mapping(bytes32 => Termination) public terminations;
 
   constructor(address _oracle, address _bondCurrency) {
@@ -58,20 +59,13 @@ contract TerminationOracle is BaseOracle {
     bondCurrency.safeTransferFrom(asserter, address(this), bond);
     bondCurrency.approve(address(oracle), bond);
 
-    bytes memory claim = abi.encodePacked(
-      "Asserting termination for market: ",
-      marketId
-    );
+    bytes memory claim = abi.encodePacked("Asserting termination for market: ", marketId);
 
     bytes32 ooId = oracle.defaultIdentifier();
     bytes32 assertionId = super._assert(claim, asserter, ooId);
 
-    terminations[identifier] = Termination({
-      identifier: identifier,
-      assertionId: assertionId,
-      timestamp: block.timestamp,
-      resolved: false
-    });
+    terminations[identifier] =
+      Termination({identifier: identifier, assertionId: assertionId, timestamp: block.timestamp, resolved: false});
     assertionIds[assertionId] = identifier;
 
     emit Submitted(identifier);

@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
+
 import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
 
@@ -65,10 +66,7 @@ contract SettlementOracle is BaseOracle {
     bondCurrency.approve(address(oracle), bond);
 
     bytes memory claim = abi.encodePacked(
-      "Asserting settlement price for market: ",
-      marketId,
-      " with price: ",
-      Strings.toString(settlementPrice)
+      "Asserting settlement price for market: ", marketId, " with price: ", Strings.toString(settlementPrice)
     );
 
     bytes32 ooId = oracle.defaultIdentifier();
