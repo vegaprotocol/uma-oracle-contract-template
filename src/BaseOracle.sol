@@ -32,7 +32,7 @@ contract BaseOracle {
   OptimisticOracleV3Interface public immutable oracle;
   uint64 public immutable liveness;
 
-  constructor(address _bondCurrency, address _oracle, uint64 _liveness) {
+  constructor(address _oracle, address _bondCurrency, uint64 _liveness) {
     bondCurrency = IERC20(_bondCurrency);
     oracle = OptimisticOracleV3Interface(_oracle);
     liveness = _liveness;

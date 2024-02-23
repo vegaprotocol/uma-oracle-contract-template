@@ -54,8 +54,8 @@ contract SettlementOracle is BaseOracle {
     return (claim.result, data.price);
   }
 
-  constructor(address _bondCurrency, address _oracle, uint64 _liveness)
-    BaseOracle(_bondCurrency, _oracle, _liveness)
+  constructor(address _oracle, address _bondCurrency, uint64 _liveness)
+    BaseOracle(_oracle, _bondCurrency, _liveness)
   {}
 
   function submitClaim(Identifier calldata identifier, Data calldata data) external {
