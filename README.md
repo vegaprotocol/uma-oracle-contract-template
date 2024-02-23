@@ -19,16 +19,16 @@ Both work in similar fashion. When proposing a market on Vega,
 `dataSourceSpecForTradingTermination`, while `SettlementOracle`
 could be used as an `external` oracle for `dataSourceSpecForSettlementData`.
 
-Both contracts have a "trigger" function, respectively `terminate` and `settle`.
-Calling these functions require the "asserter" to place a bond. This bond
+Both contracts have a "trigger" function, respectively `submitClaim`.
+Calling this functios require the "asserter" to place a bond. This bond
 acts as an incentive in the UMA system for the asserter to act truthfully.
 In case of a dispute this bond could be lost, or if a dispute is overturned
 could grow. Most of the time, assertions are assumed not to be disputed,
 hence the "Optimistic" part. This bond must be paid in an UMA approved
-currency, and is defined by the `getBondCurrency` and `getBondAmount` on
+currency, and is defined by the `bondCurrency` and `bondAmount` on
 the contracts in this repository.
 
-Upon placing an assertion (eg. "terminate") a claim is submitted to UMA,
+Upon placing an assertion (eg. to terminate) a claim is submitted to UMA,
 and can be seen in the Oracle dApp (https://oracle.uma.xyz/).
 Inside the contracts of this repository a `struct` is stored containing
 metadata about the assertion, and it's resolution.
@@ -40,8 +40,7 @@ data such as a market name, a sequence number or any combination of fields.
 Upon a final result from UMA, the contracts will get a callback when either
 the original asserter claims back their bond, or a disputer claims their 
 reward, which will trigger an update on the stored data in the example 
-contracts, and the result can be read via `getTermination` and 
-`getSettlementPrice` respectively.
+contracts, and the result can be read via `getData`.
 
 [`sample-proposal.json`](sample-proposal.json) contains a partial Vega
 market proposal for contracts deployed on the Goerli network.
@@ -51,7 +50,7 @@ Here the `getTermination` from `TerminationOracle` is filtered out and
 encoded as a JSON string in the format expected by Vega:
 
 ```shell
-forge inspect TerminationOracle abi | jq '[.[] | select(.name == "getTermination")] | tostring' --monochrome-output --compact-output
+forge inspect TerminationOracle abi | jq '[.[] | select(.name == "getData")] | tostring' --monochrome-output --compact-output
 ```
 
 ### Build
