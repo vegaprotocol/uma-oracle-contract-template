@@ -38,8 +38,8 @@ contract DeployScript is Script {
       weth.deposit{value: 1 ether}();
     }
 
-    SettlementOracle so = new SettlementOracle(oracleAddress, wethAddress);
-    TerminationOracle to = new TerminationOracle(oracleAddress, wethAddress);
+    SettlementOracle so = new SettlementOracle(oracleAddress, wethAddress, 2 minutes);
+    TerminationOracle to = new TerminationOracle(oracleAddress, wethAddress, 2 minutes);
 
     weth.approve(address(so), 0.5 ether);
     weth.approve(address(to), 0.5 ether);

@@ -1,34 +1,122 @@
-// SPDX-License-Identifier: MIT
+// SPDX-license-identifier: MIT
 pragma solidity ^0.8.0;
 
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import {Strings} from "@openzeppelin/contracts/utils/Strings.sol";
 import {OptimisticOracleV3Interface} from
   "@uma/core/contracts/optimistic-oracle-v3/interfaces/OptimisticOracleV3Interface.sol";
 
-abstract contract BaseOracle {
-  event Submitted(bytes32 indexed identifier);
-  event Completed(bytes32 indexed identifier);
-  event Disputed(bytes32 indexed identifier);
+error ClaimNotFound();
+error ClaimAlreadySubmitted(bytes32 assertionId);
+error Unauthorized();
 
-  OptimisticOracleV3Interface immutable oracle;
+contract BaseOracle {
+  struct Claim {
+    bytes32 assertionId;
+    bytes data;
+    bool result;
+  }
 
-  // assertionId => identifier
-  mapping(bytes32 => bytes32) public assertionIds;
+  /// @dev Emitted when a claim is submitted to OOv3.
+  event Submitted(bytes32 indexed claimId, bytes32 indexed assertionId);
+  /// @dev Emitted when a claim is resolved by OOv3.
+  event Resolved(bool result, bytes32 indexed claimId, bytes32 indexed assertionId);
+  /// @dev Emitted when a claim is disputed by OOv3. This does not necessarily mean the claim is rejected.
+  event Disputed(bytes32 indexed claimId, bytes32 indexed assertionId);
 
-  function getBondCurrency() public virtual returns (IERC20);
-  function getBondAmount() public virtual returns (uint256);
-  function getLiveness() public virtual returns (uint64);
+  mapping(bytes32 => Claim) public claims;
+  mapping(bytes32 => bytes32) public assertionToClaimId;
 
-  function _assert(bytes memory claim, address asserter, bytes32 identifier) internal returns (bytes32 assertionId) {
-    address callbackRecipient = address(this);
-    address escalationManager = address(0); // default
-    uint64 liveness = this.getLiveness();
-    IERC20 currency = this.getBondCurrency();
-    uint256 bond = this.getBondAmount();
-    bytes32 domainId = bytes32(0);
+  IERC20 public immutable bondCurrency;
+  OptimisticOracleV3Interface public immutable oracle;
+  uint64 public immutable liveness;
 
-    assertionId = oracle.assertTruth(
-      claim, asserter, callbackRecipient, escalationManager, liveness, currency, bond, identifier, domainId
-    );
+  constructor(address _bondCurrency, address _oracle, uint64 _liveness) {
+    bondCurrency = IERC20(_bondCurrency);
+    oracle = OptimisticOracleV3Interface(_oracle);
+    liveness = _liveness;
+
+    // Unconditionally approve the oracle to transfer the bond currency.
+    bondCurrency.approve(_oracle, type(uint256).max);
+  }
+
+  modifier onlyOracle() {
+    if (msg.sender != address(oracle)) {
+      revert Unauthorized();
+    }
+
+    _;
+  }
+
+  /**
+   * @dev Helper function to settle an assertion and release the bond.
+   * @dev It is cheaper to settle the assertion directly with the OOv3 contract than to call this function, however this provides the convenience of accepting a claimId and resolving it to the correct assertion.
+   * @param claimId The identifier of the claim to finalize.
+   */
+  function _finalizeClaim(bytes32 claimId) internal {
+    bytes32 assertionId = claims[claimId].assertionId;
+
+    if (assertionId == 0) {
+      revert ClaimNotFound();
+    }
+    oracle.settleAssertion(assertionId);
+  }
+
+  /**
+   * @notice Callback function that is called by Optimistic Oracle V3 when an assertion is resolved.
+   * @param assertionId The identifier of the assertion that was resolved.
+   * @param result The result of the assertion.
+   */
+  function assertionResolvedCallback(bytes32 assertionId, bool result) external onlyOracle {
+    bytes32 claimId = assertionToClaimId[assertionId];
+    if (claimId == 0) {
+      revert ClaimNotFound();
+    }
+
+    if (result) {
+      claims[claimId].result = true;
+      emit Resolved(true, claimId, assertionId);
+    } else {
+      delete claims[claimId];
+      delete assertionToClaimId[assertionId];
+      emit Resolved(false, claimId, assertionId);
+    }
+  }
+
+  /**
+   * @notice Callback function that is called by Optimistic Oracle V3 when an assertion is disputed.
+   * @param assertionId The identifier of the assertion that was disputed.
+   */
+  function assertionDisputedCallback(bytes32 assertionId) external onlyOracle {
+    bytes32 claimId = assertionToClaimId[assertionId];
+    if (claimId == 0) {
+      revert ClaimNotFound();
+    }
+
+    emit Disputed(claimId, assertionId);
+  }
+
+  /// @dev Internal id helper function.
+  function _id(bytes memory entropy) internal view returns (bytes32) {
+    return keccak256(abi.encode(address(this), entropy));
+  }
+
+  function _getClaim(bytes32 claimId) internal view returns (Claim memory) {
+    Claim memory claim = claims[claimId];
+    if (claim.assertionId == 0) {
+      revert ClaimNotFound();
+    }
+
+    return claim;
+  }
+
+  function _getAssertionResult(bytes32 assertionId) internal view returns (bool) {
+    try oracle.getAssertionResult(assertionId) returns (bool result) {
+      return result;
+    } catch {
+      return false;
+    }
   }
 }
+
