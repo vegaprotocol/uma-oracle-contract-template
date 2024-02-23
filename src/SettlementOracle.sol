@@ -23,7 +23,7 @@ contract SettlementOracle is BaseOracle {
     return abi.encodePacked(
       "Claiming ",
       identifier.marketCode,
-      " settled in",
+      " settled in ",
       identifier.quoteName,
       " (VEGA asset ID ",
       identifier.settlementAsset,
