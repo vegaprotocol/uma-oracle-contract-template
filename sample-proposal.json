@@ -6,17 +6,16 @@
 	"dataSourceSpecForTradingTermination": {
 		"external": {
 			"ethOracle": {
-				"sourceChainId": "421614",
-				"address": "",
-				"abi": "[{\"type\":\"function\",\"name\":\"getData\",\"inputs\":[{\"name\":\"identifier\",\"type\":\"tuple\",\"internalType\":\"struct TerminationOracle.Identifier\",\"components\":[{\"name\":\"marketCode\",\"type\":\"string\",\"internalType\":\"string\"},{\"name\":\"settlementAsset\",\"type\":\"bytes32\",\"internalType\":\"bytes32\"},{\"name\":\"quoteName\",\"type\":\"string\",\"internalType\":\"string\"},{\"name\":\"enactmentDate\",\"type\":\"string\",\"internalType\":\"string\"},{\"name\":\"conditionalSettlementOracle\",\"type\":\"address\",\"internalType\":\"contract SettlementOracle\"}]}],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"},{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"view\"}]",
-				"method": "getTermination",
+				"sourceChainId": "5",
+				"address": "0x7D6aa06a128f161945cD6aa6b267738f3e542551",
+				"abi": "[{\"type\":\"function\",\"name\":\"getData\",\"inputs\":[{\"name\":\"identifier\",\"type\":\"tuple\",\"internalType\":\"struct TerminationOracle.Identifier\",\"components\":[{\"name\":\"marketCode\",\"type\":\"string\",\"internalType\":\"string\"},{\"name\":\"quoteName\",\"type\":\"string\",\"internalType\":\"string\"},{\"name\":\"enactmentDate\",\"type\":\"string\",\"internalType\":\"string\"},{\"name\":\"conditionalSettlementOracle\",\"type\":\"address\",\"internalType\":\"contract SettlementOracle\"}]}],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"},{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"view\"}]",
+				"method": "getData",
 				"args": [
 					{
 						"marketCode": "SOL/USDT",
-						"settlementAsset": "c9fe6fc24fce121b2cc72680543a886055abb560043fda394ba5376203b7527d",
 						"quoteName": "USDT",
 						"enactmentDate": "2024-02-22T02:00:00Z",
-						"conditionalSettlementOracle": ""
+						"conditionalSettlementOracle": "0x9Dc85d557BF18441F20a2fC292730f956eC43466"
 					}
 				],
 				"requiredConfirmations": "3",
@@ -83,14 +82,13 @@
 	"dataSourceSpecForSettlementData": {
 		"external": {
 			"ethOracle": {
-				"sourceChainId": "421614",
-				"address": "",
-				"abi": "[{\"type\":\"function\",\"name\":\"getData\",\"inputs\":[{\"name\":\"identifier\",\"type\":\"tuple\",\"internalType\":\"struct SettlementOracle.Identifier\",\"components\":[{\"name\":\"marketCode\",\"type\":\"string\",\"internalType\":\"string\"},{\"name\":\"settlementAsset\",\"type\":\"bytes32\",\"internalType\":\"bytes32\"},{\"name\":\"quoteName\",\"type\":\"string\",\"internalType\":\"string\"},{\"name\":\"enactmentDate\",\"type\":\"string\",\"internalType\":\"string\"}]}],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"},{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"}]",
-				"method": "getSettlementPrice",
+				"sourceChainId": "5",
+				"address": "0x9Dc85d557BF18441F20a2fC292730f956eC43466",
+				"abi": "[{\"type\":\"function\",\"name\":\"getData\",\"inputs\":[{\"name\":\"identifier\",\"type\":\"tuple\",\"internalType\":\"struct SettlementOracle.Identifier\",\"components\":[{\"name\":\"marketCode\",\"type\":\"string\",\"internalType\":\"string\"},{\"name\":\"quoteName\",\"type\":\"string\",\"internalType\":\"string\"},{\"name\":\"enactmentDate\",\"type\":\"string\",\"internalType\":\"string\"}]}],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"},{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"}]",
+				"method": "getData",
 				"args": [
 					{
 						"marketCode": "SOL/USDT",
-						"settlementAsset": "c9fe6fc24fce121b2cc72680543a886055abb560043fda394ba5376203b7527d",
 						"quoteName": "USDT",
 						"enactmentDate": "2024-02-22T02:00:00Z"
 					}

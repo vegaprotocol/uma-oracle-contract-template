@@ -10,7 +10,6 @@ contract SettlementOracle is BaseOracle {
 
   struct Identifier {
     string marketCode;
-    bytes32 settlementAsset;
     string quoteName;
     string enactmentDate;
   }
@@ -25,9 +24,7 @@ contract SettlementOracle is BaseOracle {
       identifier.marketCode,
       " settled in ",
       identifier.quoteName,
-      " (VEGA asset ID ",
-      identifier.settlementAsset,
-      ") enacted on ",
+      " enacted on ",
       identifier.enactmentDate,
       ", to settle at ",
       Strings.toString(data.price)

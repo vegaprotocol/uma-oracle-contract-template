@@ -11,7 +11,6 @@ contract TerminationOracle is BaseOracle {
 
   struct Identifier {
     string marketCode;
-    bytes32 settlementAsset;
     string quoteName;
     string enactmentDate;
     SettlementOracle conditionalSettlementOracle;
@@ -27,9 +26,7 @@ contract TerminationOracle is BaseOracle {
       identifier.marketCode,
       " settled in ",
       identifier.quoteName,
-      " (VEGA asset ID ",
-      identifier.settlementAsset,
-      ") enacted on ",
+      " enacted on ",
       identifier.enactmentDate,
       ", to terminate at ",
       Strings.toString(data.terminationTimestamp),
@@ -47,7 +44,6 @@ contract TerminationOracle is BaseOracle {
     try so2.getData(
       SettlementOracle.Identifier({
         marketCode: identifier.marketCode,
-        settlementAsset: identifier.settlementAsset,
         quoteName: identifier.quoteName,
         enactmentDate: identifier.enactmentDate
       })
@@ -68,7 +64,6 @@ contract TerminationOracle is BaseOracle {
     try so2.getCachedData(
       SettlementOracle.Identifier({
         marketCode: identifier.marketCode,
-        settlementAsset: identifier.settlementAsset,
         quoteName: identifier.quoteName,
         enactmentDate: identifier.enactmentDate
       })
