@@ -7,20 +7,20 @@
 		"external": {
 			"ethOracle": {
 				"sourceChainId": "5",
-				"address": "0xFe6Cbc9179a68f1029570269cF41333B9911b831.",
+				"address": "0xFe6Cbc9179a68f1029570269cF41333B9911b831",
 				"abi": "[{\"type\":\"function\",\"name\":\"getData\",\"inputs\":[{\"name\":\"identifier\",\"type\":\"tuple\",\"internalType\":\"struct TerminationOracle.Identifier\",\"components\":[{\"name\":\"bondCurrency\",\"type\":\"address\",\"internalType\":\"contract IERC20\"},{\"name\":\"minimumBond\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"maximumBond\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"liveness\",\"type\":\"uint64\",\"internalType\":\"uint64\"},{\"name\":\"marketCode\",\"type\":\"string\",\"internalType\":\"string\"},{\"name\":\"quoteName\",\"type\":\"string\",\"internalType\":\"string\"},{\"name\":\"enactmentDate\",\"type\":\"string\",\"internalType\":\"string\"},{\"name\":\"ipfsLink\",\"type\":\"string\",\"internalType\":\"string\"},{\"name\":\"conditionalSettlementOracle\",\"type\":\"address\",\"internalType\":\"contract SettlementOracle\"}]}],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"},{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"view\"}]",
 				"method": "getData",
 				"args": [
 					{
-						"liveness": "120",
+						"liveness": 120,
 						"bondCurrency": "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
-						"minimumBond": "1000000000",
-						"maximumBond": "100000000000",
+						"minimumBond": 1000000000,
+						"maximumBond": 100000000000,
 						"ipfsLink": "ipfs:foo.bar",
 						"marketCode": "SOL/USDT",
 						"quoteName": "USDT",
 						"enactmentDate": "2024-02-22T02:00:00Z",
-						"conditionalSettlementOracle": "0xB92997f94F4F3caCe123B13627EB68AdC3B7b091."
+						"conditionalSettlementOracle": "0xB92997f94F4F3caCe123B13627EB68AdC3B7b091"
 					}
 				],
 				"requiredConfirmations": "64",
@@ -72,15 +72,15 @@
 		"external": {
 			"ethOracle": {
 				"sourceChainId": "5",
-				"address": "0xB92997f94F4F3caCe123B13627EB68AdC3B7b091.",
+				"address": "0xB92997f94F4F3caCe123B13627EB68AdC3B7b091",
 				"abi": "[{\"type\":\"function\",\"name\":\"getData\",\"inputs\":[{\"name\":\"identifier\",\"type\":\"tuple\",\"internalType\":\"struct SettlementOracle.Identifier\",\"components\":[{\"name\":\"liveness\",\"type\":\"uint64\",\"internalType\":\"uint64\"},{\"name\":\"bondCurrency\",\"type\":\"address\",\"internalType\":\"contract IERC20\"},{\"name\":\"minimumBond\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"maximumBond\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"marketCode\",\"type\":\"string\",\"internalType\":\"string\"},{\"name\":\"quoteName\",\"type\":\"string\",\"internalType\":\"string\"},{\"name\":\"enactmentDate\",\"type\":\"string\",\"internalType\":\"string\"},{\"name\":\"ipfsLink\",\"type\":\"string\",\"internalType\":\"string\"}]}],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"},{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"}],\"stateMutability\":\"view\"}]",
 				"method": "getData",
 				"args": [
 					{
-						"liveness": "120",
+						"liveness": 120,
 						"bondCurrency": "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
-						"minimumBond": "1000000000",
-						"maximumBond": "100000000000",
+						"minimumBond": 1000000000,
+						"maximumBond": 100000000000,
 						"ipfsLink": "ipfs:foo.bar",
 						"marketCode": "SOL/USDT",
 						"quoteName": "USDT",
