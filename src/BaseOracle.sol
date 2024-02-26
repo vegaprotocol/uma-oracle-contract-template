@@ -71,7 +71,7 @@ contract BaseOracle {
   function assertionResolvedCallback(bytes32 assertionId, bool result) external onlyOracle {
     bytes32 claimId = assertionToClaimId[assertionId];
     if (claimId == 0) {
-      revert ClaimNotFound();
+      return;
     }
 
     if (result) {
@@ -91,8 +91,11 @@ contract BaseOracle {
   function assertionDisputedCallback(bytes32 assertionId) external onlyOracle {
     bytes32 claimId = assertionToClaimId[assertionId];
     if (claimId == 0) {
-      revert ClaimNotFound();
+      return;
     }
+
+    delete claims[claimId];
+    delete assertionToClaimId[assertionId];
 
     emit Disputed(claimId, assertionId);
   }
@@ -119,4 +122,3 @@ contract BaseOracle {
     }
   }
 }
-
