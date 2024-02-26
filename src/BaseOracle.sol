@@ -102,7 +102,7 @@ contract BaseOracle {
 
   /// @dev Internal id helper function.
   function _id(bytes memory entropy) internal view returns (bytes32) {
-    return keccak256(abi.encode(address(this), entropy));
+    return keccak256(abi.encode(block.chainid, address(this), entropy));
   }
 
   function _getClaim(bytes32 claimId) internal view returns (Claim memory) {
