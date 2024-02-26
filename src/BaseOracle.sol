@@ -13,6 +13,10 @@ error Unauthorized();
 error BondOutOfRange(uint256 minimumBond, uint256 maximumBond, uint256 bond);
 
 contract BaseOracle {
+  /// @dev `Claim` contains a OOv3 `assertionId`, the result of the claim and any additional data provided by child contracts.
+  /// @param assertionId The identifier of the assertion provided by OOv3
+  /// @param data Additional data provided by child contracts. Can be stored with `abi.encode()` and decoded with `abi.decode(claim.data, (TYPE))`.
+  /// @param result The result of the claim. Will be `false` by default, but resolve to `true` if the claim is accepted.
   struct Claim {
     bytes32 assertionId;
     bytes data;
@@ -20,10 +24,17 @@ contract BaseOracle {
   }
 
   /// @dev Emitted when a claim is submitted to OOv3.
+  /// @param claimId The identifier of the claim as returned by `id()`.
+  /// @param assertionId The identifier of the assertion as returned by OOv3.
   event Submitted(bytes32 indexed claimId, bytes32 indexed assertionId);
   /// @dev Emitted when a claim is resolved by OOv3.
+  /// @param result The result of the claim. Will be `true` if the claim is accepted, `false` if it is rejected.
+  /// @param claimId The identifier of the claim as returned by `id()`.
+  /// @param assertionId The identifier of the assertion as returned by OOv3.
   event Resolved(bool result, bytes32 indexed claimId, bytes32 indexed assertionId);
   /// @dev Emitted when a claim is disputed by OOv3. This does not necessarily mean the claim is rejected.
+  /// @param claimId The identifier of the claim as returned by `id()`.
+  /// @param assertionId The identifier of the assertion as returned by OOv3.
   event Disputed(bytes32 indexed claimId, bytes32 indexed assertionId);
 
   mapping(bytes32 => Claim) public claims;
