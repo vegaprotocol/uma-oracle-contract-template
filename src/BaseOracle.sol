@@ -10,6 +10,7 @@ import {OptimisticOracleV3Interface} from
 error ClaimNotFound();
 error ClaimAlreadySubmitted(bytes32 assertionId);
 error Unauthorized();
+error BondOutOfRange(uint256 minimumBond, uint256 maximumBond, uint256 bond);
 
 contract BaseOracle {
   struct Claim {
@@ -28,17 +29,10 @@ contract BaseOracle {
   mapping(bytes32 => Claim) public claims;
   mapping(bytes32 => bytes32) public assertionToClaimId;
 
-  IERC20 public immutable bondCurrency;
   OptimisticOracleV3Interface public immutable oracle;
-  uint64 public immutable liveness;
 
-  constructor(address _oracle, address _bondCurrency, uint64 _liveness) {
-    bondCurrency = IERC20(_bondCurrency);
+  constructor(address _oracle) {
     oracle = OptimisticOracleV3Interface(_oracle);
-    liveness = _liveness;
-
-    // Unconditionally approve the oracle to transfer the bond currency.
-    bondCurrency.approve(_oracle, type(uint256).max);
   }
 
   modifier onlyOracle() {
