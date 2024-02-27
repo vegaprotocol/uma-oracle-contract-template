@@ -146,7 +146,7 @@ contract SettlementOracle is BaseOracle {
       identifier.liveness,
       identifier.bondCurrency,
       bondAmount,
-      0,
+      bytes32("ASSERT_TRUTH"),
       0
     );
 
