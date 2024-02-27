@@ -7,7 +7,7 @@
 		"external": {
 			"ethOracle": {
 				"sourceChainId": "5",
-				"address": "0xB92997f94F4F3caCe123B13627EB68AdC3B7b091",
+				"address": "0x8744F73A5b404ef843A76A927dF89FE20ab071CB",
 				"abi": "[{\"type\":\"function\",\"name\":\"getData\",\"inputs\":[{\"name\":\"identifier\",\"type\":\"tuple\",\"internalType\":\"struct TerminationOracle.Identifier\",\"components\":[{\"name\":\"bondCurrency\",\"type\":\"address\",\"internalType\":\"contract IERC20\"},{\"name\":\"minimumBond\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"maximumBond\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"liveness\",\"type\":\"uint64\",\"internalType\":\"uint64\"},{\"name\":\"marketCode\",\"type\":\"string\",\"internalType\":\"string\"},{\"name\":\"quoteName\",\"type\":\"string\",\"internalType\":\"string\"},{\"name\":\"enactmentDate\",\"type\":\"string\",\"internalType\":\"string\"},{\"name\":\"ipfsLink\",\"type\":\"string\",\"internalType\":\"string\"},{\"name\":\"conditionalSettlementOracle\",\"type\":\"address\",\"internalType\":\"contract SettlementOracle\"}]}],\"outputs\":[{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"},{\"name\":\"\",\"type\":\"uint256\",\"internalType\":\"uint256\"},{\"name\":\"\",\"type\":\"bool\",\"internalType\":\"bool\"}],\"stateMutability\":\"view\"}]",
 				"method": "getData",
 				"args": [
