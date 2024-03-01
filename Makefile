@@ -1,4 +1,4 @@
-.PHONY: help deploy weth-deposit weth-balance weht-approve
+.PHONY: help deploy weth-deposit weth-balance weht-approve test
 
 ENV_FILE ?= .env
 
@@ -77,3 +77,6 @@ deploy:
 		--verify \
 		--rpc-url $(CHAIN) \
 		--private-key $(PRIVATE_KEY)
+
+test:
+	forge test -vvv --fork-url $(CHAIN) --chain-id $(CHAIN) --etherscan-api-key $(ETHERSCAN_API_KEY)

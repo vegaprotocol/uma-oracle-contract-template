@@ -119,8 +119,8 @@ contract BaseOracle {
     return claim;
   }
 
-  function _getAssertionResult(bytes32 assertionId) internal view returns (bool) {
-    try oracle.getAssertionResult(assertionId) returns (bool result) {
+  function _getAssertionResult(bytes32 assertionId) internal returns (bool) {
+    try oracle.settleAndGetAssertionResult(assertionId) returns (bool result) {
       return result;
     } catch {
       return false;

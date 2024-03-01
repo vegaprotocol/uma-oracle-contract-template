@@ -76,7 +76,7 @@ contract SettlementOracle is BaseOracle {
   /// @notice This function is more expensive to call on-chaon than `getCachedData` as it reads the claim resolution directly from the OOv3 contract. This means it will always return the most up to date information, without needing callback from UMA OOv3.
   /// @param identifier The identifier of the claim.
   /// @return A tuple containing the result of the claim, and the price at which the VEGA market is settled.
-  function getData(Identifier calldata identifier) public view returns (bool, uint256) {
+  function getData(Identifier calldata identifier) public returns (bool, uint256) {
     Claim memory claim = _getClaim(id(identifier));
     bool result = _getAssertionResult(claim.assertionId);
 

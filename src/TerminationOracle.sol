@@ -56,7 +56,7 @@ contract TerminationOracle is BaseOracle {
     return _id(abi.encode(identifier));
   }
 
-  function getData(Identifier calldata identifier) public view returns (bool, uint256, bool) {
+  function getData(Identifier calldata identifier) public returns (bool, uint256, bool) {
     if (address(identifier.conditionalSettlementOracle) != address(0)) {
       SettlementOracle so2 = identifier.conditionalSettlementOracle;
       try so2.getData(_settlementIdentifier(identifier)) returns (bool hasResolved, uint256) {
