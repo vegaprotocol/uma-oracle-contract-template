@@ -13,7 +13,6 @@ import {
 
 /// @title SettlementOracle
 /// @notice This contract serves as an oracle for setteling VEGA markets using the UMA Protocol and Optimistic Oracle v3.
-/// @inheritdoc BaseOracle
 contract SettlementOracle is BaseOracle {
   using SafeERC20 for IERC20;
 
